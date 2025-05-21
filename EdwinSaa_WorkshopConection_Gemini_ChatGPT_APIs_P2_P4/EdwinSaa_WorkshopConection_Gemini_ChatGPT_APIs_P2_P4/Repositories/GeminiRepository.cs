@@ -5,14 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using EdwinSaa_WorkshopConection_Gemini_ChatGPT_APIs_P2_P4.Interfaces;
 using EdwinSaa_WorkshopConection_Gemini_ChatGPT_APIs_P2_P4.Models;
+using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
+
 
 namespace EdwinSaa_WorkshopConection_Gemini_ChatGPT_APIs_P2_P4.Repositories
 {
     public class GeminiRepository : IChatbotService
     {
-        private HttpClient _httpClient;
-        private string geminiApiKey = "";
+        private readonly HttpClient _httpClient;
+        private readonly string _systemContext = "You are a angry farmer. Always respond angry with a farmer cliche phrase. Do not  introduce yourself twice";// this line is the context an rules of our chatbot to determain his behaivour 
+        private string geminiApiKey = "...";//the API key is not shown for privacy purposes
         public GeminiRepository()   
         {
             _httpClient = new HttpClient();
@@ -20,7 +23,9 @@ namespace EdwinSaa_WorkshopConection_Gemini_ChatGPT_APIs_P2_P4.Repositories
 
         public async Task<string> GetChatbotResponse(string prompt)
         {
-            string url = ""+geminiApiKey;
+            // conbined prompt idea was suggested by copilot 
+            string url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + geminiApiKey;
+            string combinedPrompt = $"{_systemContext}\n\nUser: {prompt}";// conbine user prompt and rules_context to change chatbot behaivour
             GeminiRequest request = new GeminiRequest
             {
                 contents = new List<GeminiContent>
@@ -32,7 +37,7 @@ namespace EdwinSaa_WorkshopConection_Gemini_ChatGPT_APIs_P2_P4.Repositories
                         {
                             new GeminiPart
                             {
-                                text = prompt,
+                                text = combinedPrompt,
 
                             }
                         }
