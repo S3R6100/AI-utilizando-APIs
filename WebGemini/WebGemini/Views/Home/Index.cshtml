@@ -2,19 +2,63 @@
     ViewData["Title"] = "Chat con Gemini";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Gemini Chatbot</h1>
+<div class="container py-5" style="max-width: 600px;">
+    <div class="card shadow-lg rounded-4 border-0">
+        <div class="card-body p-5">
+            <h2 class="card-title text-center mb-4 fw-bold" style="color: #2c3e50;">Gemini Chatbot</h2>
 
-    <form method="post" class="mt-4">
-        <textarea name="userPrompt" rows="4" cols="60" placeholder="Escribe tu mensaje...">@ViewBag.UserPrompt</textarea><br /><br />
-        <button type="submit" class="btn btn-primary">Enviar</button>
-    </form>
+            <form method="post" autocomplete="off">
+                <div class="form-floating mb-4">
+                    <textarea class="form-control"
+                            
+                              id="userPrompt"
+                              name="userPrompt"
+                              style="height: 120px; resize: none;">@ViewBag.UserPrompt</textarea>
+                    <label for="userPrompt" class="text-muted">Escribe tu mensaje aquí...</label>
+                </div>
 
-    @if (ViewBag.BotResponse != null)
-    {
-        <div class="mt-4 alert alert-success">
-            <strong>Respuesta de Gemini:</strong>
-            <p>@ViewBag.BotResponse</p>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-gradient btn-lg fw-semibold shadow-sm" style="background: linear-gradient(90deg, #5a86ff, #4bc1ff); border: none; color: white; border-radius: 50px; transition: background 0.3s ease;">
+                        Enviar
+                    </button>
+                </div>
+            </form>
+
+            @if (ViewBag.BotResponse != null)
+            {
+                <div class="mt-5 p-4 bg-light rounded-4 shadow-sm border border-primary" style="color: #34495e;">
+                    <h5 class="mb-3 fw-semibold"><i class="bi bi-robot"></i> Respuesta de Gemini:</h5>
+                    <p class="fs-5">@ViewBag.BotResponse</p>
+                </div>
+            }
         </div>
-    }
+    </div>
 </div>
+
+<style>
+
+    textarea.form-control:focus {
+        box-shadow: 0 0 8px rgba(75, 193, 255, 0.6);
+        border-color: #4bc1ff;
+    }
+
+
+    button.btn-gradient:hover {
+        background: linear-gradient(90deg, #4bc1ff, #5a86ff);
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(75, 193, 255, 0.5);
+    }
+
+
+    body {
+        background: #f0f4ff;
+        font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+
+    textarea.form-control {
+        font-size: 1rem;
+    }
+</style>
+
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"> -->
