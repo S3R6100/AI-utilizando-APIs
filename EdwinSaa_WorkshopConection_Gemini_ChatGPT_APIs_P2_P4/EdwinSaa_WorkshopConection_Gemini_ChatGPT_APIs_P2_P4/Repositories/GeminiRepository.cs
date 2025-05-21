@@ -24,7 +24,7 @@ namespace EdwinSaa_WorkshopConection_Gemini_ChatGPT_APIs_P2_P4.Repositories
         public async Task<string> GetChatbotResponse(string prompt)
         {
             // conbined prompt idea was suggested by copilot 
-            string url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + geminiApiKey;
+            string url = "..." + geminiApiKey;// url isn't shown for privacy purposes
             string combinedPrompt = $"{_systemContext}\n\nUser: {prompt}";// conbine user prompt and rules_context to change chatbot behaivour
             GeminiRequest request = new GeminiRequest
             {
@@ -50,9 +50,11 @@ namespace EdwinSaa_WorkshopConection_Gemini_ChatGPT_APIs_P2_P4.Repositories
 
             var response = await _httpClient.PostAsync(url, content);//sent de url and the body content
             var answer = await response.Content.ReadAsStringAsync();
+            // body answer string extract and shown 
+            dynamic json = JsonConvert.DeserializeObject(answer);// convert the string to a json object
+            string chatbotResponse = json?.candidates?[0]?.content?.parts?[0]?.text;// extract the text from the json object
 
-            return answer;
-
+            return chatbotResponse ?? "No response from chatbot.";
         }
 
         Task<bool> IChatbotService.SaveResponseInDataBase(string chatbotPrompt, string chatbotResponse)
