@@ -1,7 +1,13 @@
+using EdwinSaa_WorkshopConection_Gemini_ChatGPT_APIs_P2_P4.Repositories;
+using WebGemini.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IChatbotService, GeminiRepository>();
+
 
 var app = builder.Build();
 

@@ -1,8 +1,20 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Chat con Gemini";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Gemini Chatbot</h1>
+
+    <form method="post" class="mt-4">
+        <textarea name="userPrompt" rows="4" cols="60" placeholder="Escribe tu mensaje...">@ViewBag.UserPrompt</textarea><br /><br />
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+
+    @if (ViewBag.BotResponse != null)
+    {
+        <div class="mt-4 alert alert-success">
+            <strong>Respuesta de Gemini:</strong>
+            <p>@ViewBag.BotResponse</p>
+        </div>
+    }
 </div>
