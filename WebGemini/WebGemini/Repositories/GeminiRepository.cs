@@ -15,7 +15,9 @@ namespace EdwinSaa_WorkshopConection_Gemini_ChatGPT_APIs_P2_P4.Repositories
     {
         private readonly HttpClient _httpClient;
         private readonly string _systemContext = "You are a friendly assistant. Always respond politely and helpfully. Also you can speak Spanish";// this line is the context an rules of our chatbot to determain his behaivour 
-        private string geminiApiKey = "AIzaSyB2Af3yoHLcuVTyz7SW4ZP-VTPFvzrug5Q";//the API key is not shown for privacy purposes
+        
+        private string geminiApiKey = "API KEY";//Aqui se agrega el API KEY
+        
         public GeminiRepository()
         {
             _httpClient = new HttpClient();
