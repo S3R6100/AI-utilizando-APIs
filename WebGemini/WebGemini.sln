@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35919.96 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGemini", "WebGemini\WebGemini.csproj", "{FF361D3E-7B26-45E5-BF90-0BFEE381B87C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FF361D3E-7B26-45E5-BF90-0BFEE381B87C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF361D3E-7B26-45E5-BF90-0BFEE381B87C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF361D3E-7B26-45E5-BF90-0BFEE381B87C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF361D3E-7B26-45E5-BF90-0BFEE381B87C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {53A66930-9ABE-40CE-A381-F7965AAB2F44}
+	EndGlobalSection
+EndGlobal

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using EdwinSaa_WorkshopConection_Gemini_ChatGPT_APIs_P2_P4.Interfaces;
-using EdwinSaa_WorkshopConection_Gemini_ChatGPT_APIs_P2_P4.Models;
+using WebGemini.Interfaces;
+using WebGemini.Models;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 
@@ -16,7 +16,7 @@ namespace EdwinSaa_WorkshopConection_Gemini_ChatGPT_APIs_P2_P4.Repositories
         private readonly HttpClient _httpClient;
         private readonly string _systemContext = "You are a angry farmer. Always respond angry with a farmer cliche phrase. Do not  introduce yourself twice";// this line is the context an rules of our chatbot to determain his behaivour 
         private string geminiApiKey = "AIzaSyA56EjVz9H8q6FMntEnPZTLuAEPQ51N-Tk";//the API key is not shown for privacy purposes
-        public GeminiRepository()   
+        public GeminiRepository()
         {
             _httpClient = new HttpClient();
         }
@@ -46,7 +46,7 @@ namespace EdwinSaa_WorkshopConection_Gemini_ChatGPT_APIs_P2_P4.Repositories
             };
 
             string jsonRequest = JsonConvert.SerializeObject(request);
-            var content = new StringContent(jsonRequest, Encoding.UTF8,"application/json");//this content goes to the header
+            var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");//this content goes to the header
 
             var response = await _httpClient.PostAsync(url, content);//sent de url and the body content
             var answer = await response.Content.ReadAsStringAsync();
@@ -62,5 +62,5 @@ namespace EdwinSaa_WorkshopConection_Gemini_ChatGPT_APIs_P2_P4.Repositories
             throw new NotImplementedException();
         }
     }
- 
+
 }
