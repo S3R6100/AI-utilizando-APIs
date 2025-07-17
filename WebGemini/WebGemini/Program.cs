@@ -8,6 +8,10 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IChatbotService, GeminiRepository>();
 
+builder.Services.AddHttpClient<GeminiRepository>();
+builder.Services.AddHttpClient<GptRepository>();
+builder.Services.AddSingleton<ChatbotFactory>();
+
 
 var app = builder.Build();
 
