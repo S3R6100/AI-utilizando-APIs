@@ -1,7 +1,8 @@
-﻿using EdwinSaa_WorkshopConection_Gemini_ChatGPT_APIs_P2_P4.Repositories;
+﻿using WebGemini.Repositories;
+using WebGemini.Interfaces;
 using WebGemini.Repositories;
 
-namespace WebGemini.Interfaces
+namespace WebGemini.Factories
 {
     public class ChatbotFactory
     {
@@ -18,11 +19,10 @@ namespace WebGemini.Interfaces
         {
             return mode.ToLower() switch
             {
-                "gemini" => _gemini,
                 "gpt" => _gpt,
+                "gemini" => _gemini,
                 _ => _gemini
             };
         }
     }
-
 }

@@ -1,72 +1,65 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using WebGemini.Interfaces;
 using WebGemini.Models;
-using Microsoft.AspNetCore.Identity;
-using Newtonsoft.Json;
 
-
-namespace EdwinSaa_WorkshopConection_Gemini_ChatGPT_APIs_P2_P4.Repositories
+namespace WebGemini.Repositories
 {
     public class GeminiRepository : IChatbotService
     {
         private readonly HttpClient _httpClient;
-        private readonly string _systemContext = "You are a friendly assistant. Always respond politely and helpfully. Also you can speak Spanish";// this line is the context an rules of our chatbot to determain his behaivour 
-        
-        private string geminiApiKey = "API KEY";//Aqui se agrega el API KEY
-        
-        public GeminiRepository()
+        private readonly string _apiKey;
+        private readonly string _url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+
+        private readonly string _systemContext = "You are a friendly assistant. Always respond politely and helpfully. You can speak Spanish.";
+
+        public GeminiRepository(HttpClient httpClient, IConfiguration configuration)
         {
-            _httpClient = new HttpClient();
+            _httpClient = httpClient;
+            _apiKey = configuration["Gemini:ApiKey"];
         }
 
         public async Task<string> GetChatbotResponse(string prompt)
         {
-            // conbined prompt idea was suggested by copilot 
-            string url = $"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={geminiApiKey}";
+            var fullPrompt = $"{_systemContext}\n\nUser: {prompt}";
 
-
-
-
-            string combinedPrompt = $"{_systemContext}\n\nUser: {prompt}";// conbine user prompt and rules_context to change chatbot behaivour
-            GeminiRequest request = new GeminiRequest
+            var request = new GeminiRequest
             {
-                contents = new List<GeminiContent>
+                Contents = new List<GeminiContent>
                 {
                     new GeminiContent
                     {
-                        parts = new List<GeminiPart>
-
+                        Parts = new List<GeminiPart>
                         {
-                            new GeminiPart
-                            {
-                                text = combinedPrompt,
-
-                            }
+                            new GeminiPart { Text = fullPrompt }
                         }
                     }
                 }
             };
 
-            string jsonRequest = JsonConvert.SerializeObject(request);
-            var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");//this content goes to the header
+            var json = JsonSerializer.Serialize(request);
+            var httpRequest = new HttpRequestMessage(HttpMethod.Post, _url)
+            {
+                Content = new StringContent(json, Encoding.UTF8, "application/json")
+            };
 
-            var response = await _httpClient.PostAsync(url, content);//sent de url and the body content
-            var answer = await response.Content.ReadAsStringAsync();
-            // body answer string extract and shown 
-            dynamic json = JsonConvert.DeserializeObject(answer);// convert the string to a json object
-            string chatbotResponse = json?.candidates?[0]?.content?.parts?[0]?.text;// extract the text from the json object
+            httpRequest.Headers.Add("X-goog-api-key", _apiKey);
 
-            return chatbotResponse ?? "No response from chatbot.";
+            var response = await _httpClient.SendAsync(httpRequest);
+            response.EnsureSuccessStatusCode();
+
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var data = JsonSerializer.Deserialize<GeminiResponse>(jsonResponse);
+
+            return data?.Candidates?[0]?.Content?.Parts?[0]?.Text ?? "No response from Gemini.";
         }
 
-        Task<bool> IChatbotService.SaveResponseInDataBase(string chatbotPrompt, string chatbotResponse)
+        public Task<bool> SaveResponseInDataBase(string chatbotPrompt, string chatbotResponse)
         {
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
         }
     }
-
 }

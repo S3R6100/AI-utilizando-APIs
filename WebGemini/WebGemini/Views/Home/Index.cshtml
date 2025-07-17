@@ -1,20 +1,40 @@
 ﻿@{
-    ViewData["Title"] = "Chat con Gemini";
+    ViewData["Title"] = "Chat con Gemini y ChatGPT";
+    var selectedMode = ViewBag.SelectedMode as string ?? "gemini";
 }
 
 <div class="container py-5" style="max-width: 600px;">
     <div class="card shadow-lg rounded-4 border-0">
         <div class="card-body p-5">
-            <h2 class="card-title text-center mb-4 fw-bold" style="color: #2c3e50;">Gemini Chatbot</h2>
+            <h2 class="card-title text-center mb-4 fw-bold" style="color: #2c3e50;">Chatbot Gemini & GPT</h2>
 
-            <form method="post" autocomplete="off">
+            <form method="post" asp-controller="Home" asp-action="Index" autocomplete="off">
                 <div class="form-floating mb-4">
                     <textarea class="form-control"
-                            
                               id="userPrompt"
                               name="userPrompt"
                               style="height: 120px; resize: none;">@ViewBag.UserPrompt</textarea>
                     <label for="userPrompt" class="text-muted">Escribe tu mensaje aquí...</label>
+                </div>
+
+                <div class="mb-4">
+                    <select class="form-select" name="mode">
+                        @if (selectedMode == "gemini")
+                        {
+                            <option value="gemini" selected>Gemini</option>
+                            <option value="gpt">GPT</option>
+                        }
+                        else if (selectedMode == "gpt")
+                        {
+                            <option value="gemini">Gemini</option>
+                            <option value="gpt" selected>GPT</option>
+                        }
+                        else
+                        {
+                            <option value="gemini" selected>Gemini</option>
+                            <option value="gpt">GPT</option>
+                        }
+                    </select>
                 </div>
 
                 <div class="d-grid">
@@ -27,38 +47,10 @@
             @if (ViewBag.BotResponse != null)
             {
                 <div class="mt-5 p-4 bg-light rounded-4 shadow-sm border border-primary" style="color: #34495e;">
-                    <h5 class="mb-3 fw-semibold"><i class="bi bi-robot"></i> Respuesta de Gemini:</h5>
+                    <h5 class="mb-3 fw-semibold"><i class="bi bi-robot"></i> Respuesta (@selectedMode):</h5>
                     <p class="fs-5">@ViewBag.BotResponse</p>
                 </div>
             }
         </div>
     </div>
 </div>
-
-<style>
-
-    textarea.form-control:focus {
-        box-shadow: 0 0 8px rgba(75, 193, 255, 0.6);
-        border-color: #4bc1ff;
-    }
-
-
-    button.btn-gradient:hover {
-        background: linear-gradient(90deg, #4bc1ff, #5a86ff);
-        cursor: pointer;
-        box-shadow: 0 4px 15px rgba(75, 193, 255, 0.5);
-    }
-
-
-    body {
-        background: #f0f4ff;
-        font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-
-    textarea.form-control {
-        font-size: 1rem;
-    }
-</style>
-
-<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"> -->
